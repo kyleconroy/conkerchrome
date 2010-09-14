@@ -1,0 +1,26 @@
+#conkerchrome {
+  display: none;
+  position: fixed;
+  min-height: 25px;
+  bottom: 0px;
+  right: 0px;
+  left: 0px;
+}
+#conkerchrome #commandbar {
+  height: 25px;
+  background: grey;
+}
+.conkerchrome_highlight {
+  background: yellow !important;
+  position: relative;
+}
+.conkerchrome_number {
+  background: red;
+  color: white;
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: 9px;
+  line-height: 9px;
+  font-weight: bold;
+}
