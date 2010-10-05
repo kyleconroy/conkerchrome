@@ -1,5 +1,7 @@
 // Hotkeys 
 var LINE = 40;
+var COLUMN = 20;
+var BIG = 10000000000;
 
 var hotkeys = function() {
     var matched = false;
@@ -117,6 +119,11 @@ function hideConkerChrome(){
 
 /* Browsing */
 
+/** Unfocus Area **/
+hotkeys.add("esc", function(){ 
+    $(":focus").blur();
+});
+
 /** Cancel **/
 hotkeys.add("ctrl+g", function(){ 
     conkerChrome.hide();
@@ -144,6 +151,26 @@ hotkeys.add('g', function(){});
 
 /* Movement */
 
+/** Beginning of line **/
+hotkeys.add('ctrl+a', function(){
+    window.scrollBy(-BIG, 0);
+});
+
+/** End of a line **/
+hotkeys.add('ctrl+e', function(){
+    window.scrollBy(BIG, 0);
+});
+
+/** Forward a column **/
+hotkeys.add('ctrl+f', function(){
+    window.scrollBy(COLUMN, 0);
+});
+
+/** Back a column **/
+hotkeys.add('ctrl+b', function(){
+    window.scrollBy(-COLUMN, 0);
+});
+
 /** Forward a line **/
 hotkeys.add('ctrl+n', function(){
     window.scrollBy(0, LINE);
@@ -167,12 +194,12 @@ hotkeys.add('alt+v', function(){
 
 /** End of Document **/
 hotkeys.add('alt+shift+.', function(){
-    window.scrollBy(0, 1000000);
+    window.scrollBy(0, BIG);
 });
 
 /** Top of document **/
 hotkeys.add('alt+shift+,', function(){
-    window.scrollTo(0, 0);
+    window.scrollBy(0, -BIG);
 });
 
 /* Buffers */
