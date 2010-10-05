@@ -142,10 +142,14 @@ hotkeys.add('g', function(){});
 /* Movement */
 
 /** Forward a line **/
-hotkeys.add('ctrl+n', function(){});
+hotkeys.add('ctrl+n', function(){
+    window.scrollBy(0, 32);
+});
 
 /** Back a line **/
-hotkeys.add('ctrl+p', function(){});
+hotkeys.add('ctrl+p', function(){
+    window.scrollBy(0, -32);
+});
 
 /** Open a URL **/
 hotkeys.add('ctrl+x ctrl+f', function() { 

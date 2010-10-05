@@ -1,10 +1,6 @@
 # Conker Chrome
 
-Turn Chrome into [Conkeror](conkeror.org).
-
-This is currenlty just a proof-of-concept, as nothing really works.
-
-Check the wiki for implementation status
+Turn Chrome into [Conkeror](conkeror.org). Alpha status! Things aren't really working yet
 
 # Overview of the Keys
 
