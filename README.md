@@ -2,6 +2,9 @@
 
 Turn Chrome into [Conkeror](conkeror.org). Alpha status! Things aren't really working yet
 
+C = ctrl
+M = alt
+
 # Overview of the Keys
 
 ## Browsing
@@ -42,6 +45,57 @@ Turn Chrome into [Conkeror](conkeror.org). Alpha status! Things aren't really wo
     </tr>
   </tbody>
 </table>
+
+## Browsing
+
+<table>
+  <tbody>
+    <tr>
+      <td>C-a</td>
+      <td>beginning of line</td>
+    </tr>
+    <tr>
+      <td>C-e</td>
+      <td>end of line</td>
+    </tr>
+    <tr>
+      <td>C-f</td>
+      <td>forward a column</td>
+    </tr>
+    <tr>
+      <td>C-b</td>
+      <td>back a column</td>
+    </tr>
+    <tr>
+      <td>C-n</td>
+      <td>forward a line</td>
+    </tr>
+    <tr>
+      <td>C-p</td>
+      <td>back a line</td>
+    </tr>
+    <tr>
+      <td>C-v</td>
+      <td>page down</td>
+    </tr>
+    <tr>
+      <td>M-v</td>
+      <td>page up</td>
+    </tr>
+    <tr>
+      <td>M-&gt;</td>
+      <td>End of Document</td>
+    </tr>
+    <tr>
+      <td>M-&lt;</td>
+      <td>Beginning of Document</td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+
 
 
 

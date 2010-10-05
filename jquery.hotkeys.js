@@ -29,6 +29,11 @@
 			"`": "~", "1": "!", "2": "@", "3": "#", "4": "$", "5": "%", "6": "^", "7": "&", 
 			"8": "*", "9": "(", "0": ")", "-": "_", "=": "+", ";": ": ", "'": "\"", ",": "<", 
 			".": ">",  "/": "?",  "\\": "|"
+		},
+		
+		unicodeNums: {
+			"¼": ",", "¾": ".", "¿": "/", "þ": "'", "º": ";", "ü": "\\", "ý": "]", "û": "[",
+			"»": "=", "½": "-", "à": "`"
 		}
 	};
 
@@ -53,6 +58,8 @@
 				character = String.fromCharCode( event.which ).toLowerCase(),
 				key, modif = "", possible = {};
 
+			character = jQuery.hotkeys.unicodeNums[character] || character;
+			
 			// check combinations (alt|ctrl|shift+anything)
 			if ( event.altKey && special !== "alt" ) {
 				modif += "alt+";

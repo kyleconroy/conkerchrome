@@ -1,4 +1,6 @@
 // Hotkeys 
+var LINE = 40;
+
 var hotkeys = function() {
     var matched = false;
     var current = "";
@@ -23,6 +25,7 @@ var hotkeys = function() {
     var keyFn = function(kk){
 	return function() {
 	    combo = current + kk;
+	    console.log(combo);
 	    keyPress();
 	}
     };
@@ -143,13 +146,35 @@ hotkeys.add('g', function(){});
 
 /** Forward a line **/
 hotkeys.add('ctrl+n', function(){
-    window.scrollBy(0, 32);
+    window.scrollBy(0, LINE);
 });
 
 /** Back a line **/
 hotkeys.add('ctrl+p', function(){
-    window.scrollBy(0, -32);
+    window.scrollBy(0, -LINE);
 });
+
+/** Page Down **/
+hotkeys.add('ctrl+v', function(){
+    window.scrollBy(0, window.innerHeight - LINE);
+});
+
+/** Page Up **/
+hotkeys.add('alt+v', function(){
+    window.scrollBy(0, -(window.innerHeight - LINE));
+});
+
+
+/** End of Document **/
+hotkeys.add('alt+shift+.', function(){
+    window.scrollBy(0, 1000000);
+});
+
+/** Top of document **/
+hotkeys.add('alt+shift+,', function(){
+    window.scrollTo(0, 0);
+});
+
 
 /** Open a URL **/
 hotkeys.add('ctrl+x ctrl+f', function() { 
