@@ -93,6 +93,22 @@ M = alt
   </tbody>
 </table>
 
+## "Buffer" Management
+
+<table>
+  <tbody>
+    <tr>
+      <td>M-n</td>
+      <td>Next buffer</td>
+    </tr>
+    <tr>
+      <td>M-p</td>
+      <td>Previous buffer</td>
+    </tr>
+  </tbody>
+</table>
+
+
 
 
 

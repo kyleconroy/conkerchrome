@@ -175,6 +175,17 @@ hotkeys.add('alt+shift+,', function(){
     window.scrollTo(0, 0);
 });
 
+/* Buffers */
+/** Next buffer **/
+hotkeys.add('alt+n', function(){
+    chrome.extension.sendRequest({action: "next-tab"}, function(r){});
+});
+
+/** Previos buffer **/
+hotkeys.add('alt+p', function(){
+    chrome.extension.sendRequest({action: "previous-tab"}, function(r){});
+});
+
 
 /** Open a URL **/
 hotkeys.add('ctrl+x ctrl+f', function() { 
