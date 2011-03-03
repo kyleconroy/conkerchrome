@@ -1,11 +1,11 @@
 # Conker Chrome
 
-Turn Chrome into [Conkeror](conkeror.org). Alpha status! Things aren't really working yet
-
-C = ctrl
-M = alt
+Turn Chrome into [Conkeror](conkeror.org). BETA
 
 ## Overview of the Keys
+
+**C** = ctrl
+**M** = meta
 
 ### Browsing
 
@@ -19,11 +19,6 @@ M = alt
   </thead>
   <tbody>
     <tr>
-      <td>g</td>
-      <td>find-url</td>
-      <td>open new URL</td>
-    </tr>
-    <tr>
       <td>B</td>
       <td>back</td>
       <td></td>
@@ -34,7 +29,7 @@ M = alt
       <td></td>
     </tr>
     <tr>
-      <td>r</td>
+      <td>C-r</td>
       <td>reload</td>
       <td></td>
     </tr>
@@ -93,6 +88,10 @@ M = alt
   </tbody>
 </table>
 
+### Selecting links
+
+Hitting **f** will activate follow link mode. All links in the page are highlighted with numbers. Enter the number you want and hit **return**. **Shift+return** will open the link in a new tab. **C-g** exits out of the mode
+
 ### "Buffer" Management
 
 <table>
@@ -110,7 +109,7 @@ M = alt
 
 ## Limitations
 
-ConkerChrome currently doesn't work on any internal Chrome page.
+ConkerChrome currently doesn't work on internal Chrome pages. 
 
 
 
