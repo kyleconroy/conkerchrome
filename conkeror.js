@@ -1,25 +1,35 @@
-// Hotkeys 
+// Number of pixels to scroll up and down
 var LINE = 40;
+
+// Number of pixels to scroll left and right
 var COLUMN = 20;
+
+// Lots of pixels jump to the top or bottom of a page
 var BIG = 10000000000;
+
+// Modifier Keys
 var META = "meta";
 var CTRL = "ctrl";
 var ALT = "alt";
 var SHIFT = "shift";
 
+// Return a ctrl keyboard shortcut
 var ctrl = function(a) {
     return CTRL + "+" + a; 
 }
 
+// Return a meta keyboard shortcut
 var meta = function(a) {
     return META + "+" + a; 
 }
 
+// Return a shift keyboard shortcut
 var shift = function(a) {
     return SHIFT + "+" + a; 
 }
 
-
+// Module to hold all the keybindings
+// I wrote this a while ago, not sure how it works
 var hotkeys = function() {
     var matched = false;
     var current = "";
@@ -91,12 +101,13 @@ var hotkeys = function() {
 
 hotkeys.setUnrecognized(function(){ console.log("What??"); });
 
-// HTML Selectors
+// HTML Selectors for ConkerChrome elements
 var selectors = {
     "conker": "#conkerchrome",
     "number": ".conkerchrome_number"
 }
 
+// CSS Selectors for ConkerChrome elements
 var css = {
     "klass": {
 	"highlight": "conkerchrome_highlight",
@@ -134,96 +145,90 @@ function hideConkerChrome(){
     jQuery(selectors.conker).hide();
 }
 
-/* Browsing */
+// Keyboard shortcuts
 
-/** Unfocus Area **/
+// Unfocus selected area (such as a textbox)
 hotkeys.add("esc", function(){ 
     $(":focus").blur();
 });
 
-/** Cancel **/
+// Cancel current command
 hotkeys.add(ctrl('g'), function(){ 
     conkerChrome.hide();
     currentCommand.cancel();
     currentCommand = nullCommand;
 });
 
-/** Back **/
+// Move back one page in the history
 hotkeys.add(shift('b'), function() { 
     window.history.back();
 });
 
-/** Back **/
+// Move forward one page in the history
 hotkeys.add(shift('f'), function() { 
     window.history.forward();
 });
 
-/** Reload **/
+// Reload the current page
 hotkeys.add(ctrl('r'), function() { 
     window.location.reload(true);
 });
 
-/** Find-url **/
-hotkeys.add('g', function(){});
+// Movement around the page
 
-/* Movement */
-
-/** Beginning of line **/
+// Scroll the page all the way to the right
 hotkeys.add(ctrl('a'), function(){
     window.scrollBy(-BIG, 0);
 });
 
-/** End of a line **/
+// Scroll the page all the way to the left
 hotkeys.add(ctrl('e'), function(){
     window.scrollBy(BIG, 0);
 });
 
-/** Forward a column **/
+// Scroll the page forward a column
 hotkeys.add(ctrl('f'), function(){
     window.scrollBy(COLUMN, 0);
 });
 
-/** Back a column **/
+// Scroll the page back a column
 hotkeys.add(ctrl('b'), function(){
     window.scrollBy(-COLUMN, 0);
 });
 
-/** Forward a line **/
+// Scroll the page down a line
 hotkeys.add(ctrl('n'), function(){
     window.scrollBy(0, LINE);
 });
 
-/** Back a line **/
+// Scroll the page up a line
 hotkeys.add(ctrl('p'), function(){
     window.scrollBy(0, -LINE);
 });
 
-/** Page Down **/
+// Jump down a page length
 hotkeys.add(ctrl('v'), function(){
     window.scrollBy(0, window.innerHeight - LINE);
 });
 
-/** Page Up **/
+// Jump up a page length
 hotkeys.add(meta('v'), function(){
     window.scrollBy(0, -(window.innerHeight - LINE));
 });
 
 
-/** End of Document **/
+// Jump to the end of the page
 hotkeys.add(meta(shift('.')), function(){
     window.scrollBy(0, BIG);
 });
 
-/** Top of document **/
+// Jump to the top of the page
 hotkeys.add(meta(shift(',')), function(){
     window.scrollBy(0, -BIG);
 });
 
-/* Buffers */
-/** Next buffer **/
-/* Chrome Default */
-
-/** Open a URL **/
+// Open a url
+// TODO: Make this work
 hotkeys.add('ctrl+x ctrl+f', function() { 
     conkerChrome.show();
 });
@@ -232,7 +237,8 @@ hotkeys.add('f', function (evt){
     highlightLinks.activate();
 });
 
-/* Follow */
+// Follow a link on the page
+// TODO: Make this work
 var highlightLinks = {
     "activate": function(){
 	conkerChrome.show();
@@ -246,4 +252,3 @@ var highlightLinks = {
 	jQuery(selectors.number).remove();
     }
 }
-
