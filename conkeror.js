@@ -243,6 +243,11 @@ hotkeys.add('ctrl+x ctrl+f', function() {
     conkerChrome.show();
 });
 
+// Close the current tab
+hotkeys.add('ctrl+x k', function() {
+    chrome.extension.sendRequest({action: "close-tab"});
+});
+
 hotkeys.add('f', function (evt){ 
     followMode.enter();
     currentMode = followMode;

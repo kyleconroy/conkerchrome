@@ -1,7 +1,6 @@
 chrome.extension.onRequest.addListener(
     function(request, sender, sendResponse) {
 	console.log(request.action);
-
 	if (request.action == "next-tab") {
 	    chrome.tabs.getSelected(null, function(tab){
 		chrome.tabs.getAllInWindow(null, function(tabs) {
@@ -14,7 +13,12 @@ chrome.extension.onRequest.addListener(
 	    });
 	    sendResponse({});
 
-	} if (request.action == "previous-tab") {
+	} else if (request.action == "close-tab") {
+	    chrome.tabs.getSelected(null, function(tab){
+		chrome.tabs.remove(tab.id);
+	    });
+	    sendResponse({});
+	} else if (request.action == "previous-tab") {
 	    chrome.tabs.getSelected(null, function(tab){
 		chrome.tabs.getAllInWindow(null, function(tabs) {
 		    if (tab.index === 0)
