@@ -107,16 +107,15 @@ var selectors = {
 
 // CSS Selectors for ConkerChrome elements
 var css = {
-    "klass": {
-	"highlight": "conkerchrome_highlight",
-	"number": "conkerchrome_number"
-    },
-    "id": {}
+    "highlight": "conkerchrome_highlight",
+    "selected": "conkerchrome_selected",
+    "number": "conkerchrome_number"
 }
 
 var baseMode = {
     "enter": function(){},
-    "leave": function(){}
+    "leave": function(){},
+    "execute": function(){}
 }
 
 // Current command
@@ -125,8 +124,20 @@ var currentMode  = baseMode;
 // Create conkerbar
 var conkerChrome = function(){
 
-    jQuery(document.body).append("<div id=\"conkerchrome\"><div id=\"commandbar\"></div></div>");
+    jQuery(document.body).append("<div id=\"conkerchrome\"><div id=\"commandbar\"></div><input type=\"text\"></div>");
     var bar = jQuery(selectors.conker);
+
+    jQuery('#conkerchrome input').keyup(function(e) {
+	var bar = jQuery(e.target);
+	if(e.keyCode == 71 && e.ctrlKey){
+	    bar.blur();
+	    cancel();
+	}
+	if(e.keyCode == 13) {
+	    currentMode.execute(bar);
+	} 
+	currentMode.update(bar);
+    });
 
     return {
 	"hide": function(){ bar.hide();},
@@ -144,6 +155,11 @@ function hideConkerChrome(){
 }
 
 // Keyboard shortcuts
+var cancel = function(){ 
+    conkerChrome.hide();
+    currentMode.leave();
+    currentMode = baseMode;
+};
 
 // Unfocus selected area (such as a textbox)
 hotkeys.add("esc", function(){ 
@@ -151,11 +167,7 @@ hotkeys.add("esc", function(){
 });
 
 // Cancel current command
-hotkeys.add(ctrl('g'), function(){ 
-    conkerChrome.hide();
-    currentMode.leave();
-    currentMode = baseMode;
-});
+hotkeys.add(ctrl('g'), cancel);
 
 // Move back one page in the history
 hotkeys.add(shift('b'), function() { 
@@ -239,15 +251,35 @@ hotkeys.add('f', function (evt){
 // Follow a link on the page
 // TODO: Make this work
 var followMode = {
-    "enter": function(){
+    enter: function(){
+	jQuery("#commandbar").text("Enter Link ID");
 	conkerChrome.show();
 	jQuery("a").each(function(i, elem){
-	    jQuery(this).append(jQuery("<div/>", {"class": css.klass.number, "text": i}))
-		.addClass(css.klass.highlight);
+	    jQuery(this).append(jQuery("<div/>", {"class": css.number, "text": i}))
+		.addClass(css.highlight);
 	});
+	jQuery("#conkerchrome input").focus();
     },
-    "leave": function(){
-	jQuery("a").removeClass(css.klass.highlight);
+    execute: function(lid) {
+	link = jQuery("a").get(lid.val());
+	if (link && link.href) {
+	    window.location.href = link.href;
+	}
+    },
+    update: function(lid) {
+	jQuery("a." + css.selected).removeClass(css.selected);
+	var v = lid.val();
+	if (!v) 
+	    return;
+	link = jQuery("a:eq(" + v + ")");
+	console.log(link);
+	if (link.hasClass(css.selected))
+	    return;
+	link.addClass(css.selected);
+    },
+    leave: function(){
+	jQuery("a").removeClass(css.highlight)
+	    .removeClass(css.selected);
 	jQuery(selectors.number).remove();
     }
 }

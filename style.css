@@ -5,14 +5,19 @@
   bottom: 0px;
   right: 0px;
   left: 0px;
-}
-#conkerchrome #commandbar {
-  height: 25px;
   background: grey;
+}
+
+#conkerchrome div, #conkerchrome input {
+    display: inline-block;
+    margin: 5px;
 }
 .conkerchrome_highlight {
   background: yellow !important;
   position: relative;
+}
+.conkerchrome_selected {
+  background: green !important;
 }
 .conkerchrome_number {
   background: red;
