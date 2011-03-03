@@ -13,6 +13,15 @@ chrome.extension.onRequest.addListener(
 	    });
 	    sendResponse({});
 
+	} else if (request.action == "new-tab") {
+	    chrome.tabs.getSelected(null, function(tab){
+		chrome.tabs.create({
+		    "url": request.url,
+		    "selected": false,
+		    "index": tab.index + 1
+		});
+	    });
+	    sendResponse({});
 	} else if (request.action == "close-tab") {
 	    chrome.tabs.getSelected(null, function(tab){
 		chrome.tabs.remove(tab.id);

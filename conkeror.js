@@ -102,6 +102,8 @@ hotkeys.setUnrecognized(function(){});
 // HTML Selectors for ConkerChrome elements
 var selectors = {
     "conker": "#conkerchrome",
+    "commandbar": "#commandbar",
+    "commandinput": "#conkerchrome input",
     "number": ".conkerchrome_number"
 }
 
@@ -115,7 +117,7 @@ var css = {
 var baseMode = {
     "enter": function(){},
     "leave": function(){},
-    "execute": function(){}
+    "update": function(e, bar){}
 }
 
 // Current command
@@ -126,6 +128,8 @@ var conkerChrome = function(){
 
     jQuery(document.body).append("<div id=\"conkerchrome\"><div id=\"commandbar\"></div><input type=\"text\"></div>");
     var bar = jQuery(selectors.conker);
+    var title = jQuery(selectors.commandbar);
+    var input = jQuery(selectors.commandinput);
 
     jQuery('#conkerchrome input').keyup(function(e) {
 	var bar = jQuery(e.target);
@@ -133,15 +137,16 @@ var conkerChrome = function(){
 	    bar.blur();
 	    cancel();
 	}
-	if(e.keyCode == 13) {
-	    currentMode.execute(bar);
-	} 
-	currentMode.update(bar);
+	currentMode.update(e, bar);
     });
 
     return {
 	"hide": function(){ bar.hide();},
-	"show": function(){ bar.show();}
+	"show": function(text){ 
+	    title.text(text);
+	    bar.show();
+	    input.css({"left": title.width() + 10}).focus();
+	}
     };
 }();
 
@@ -257,30 +262,36 @@ hotkeys.add('f', function (evt){
 // TODO: Make this work
 var followMode = {
     enter: function(){
-	jQuery("#commandbar").text("Enter Link ID");
-	conkerChrome.show();
 	jQuery("a").each(function(i, elem){
 	    jQuery(this).append(jQuery("<div/>", {"class": css.number, "text": i}))
 		.addClass(css.highlight);
 	});
-	jQuery("#conkerchrome input").focus();
+	conkerChrome.show("Enter Link ID");
     },
-    execute: function(lid) {
-	link = jQuery("a").get(lid.val());
-	if (link && link.href) {
-	    window.location.href = link.href;
-	}
-    },
-    update: function(lid) {
-	jQuery("a." + css.selected).removeClass(css.selected);
-	var v = lid.val();
-	if (!v) 
-	    return;
+    update: function(e, bar) {
+	// Get the selected link or return
+	var v = bar.val();
+	if (!v) return;
 	link = jQuery("a:eq(" + v + ")");
-	console.log(link);
-	if (link.hasClass(css.selected))
-	    return;
-	link.addClass(css.selected);
+	// If the return was pressed,
+	if (e.keyCode == 13) {
+	    if (link && link.attr("href")) {
+		// If shift+return, open new tab
+		if (e.shiftKey) {
+		    chrome.extension.sendRequest({
+			action: "new-tab",
+			url: link.attr("href")
+		    });
+	    	} else {
+		    window.location.href = link.attr("href");
+		}
+	    }
+	} else {
+	    jQuery("a." + css.selected).removeClass(css.selected);
+	    if (link.hasClass(css.selected))
+		return;
+	    link.addClass(css.selected);
+	}
     },
     leave: function(){
 	jQuery("a").removeClass(css.highlight)
