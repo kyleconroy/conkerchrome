@@ -141,7 +141,7 @@ var conkerChrome = function(){
     });
 
     return {
-	"hide": function(){ bar.hide();},
+	"hide": function(){ bar.hide(); input.val("");},
 	"show": function(text){ 
 	    title.text(text);
 	    bar.show();
