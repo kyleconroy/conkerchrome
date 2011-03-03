@@ -249,6 +249,9 @@ var ConkerC = function(opts) {
 	    });
 	},
 	update: function(e, bar) {
+	    // Remove the current selection
+	    jQuery("a." + css.selected).removeClass(css.selected);
+
 	    // Get the selected link or return
 	    var v = bar.val();
 	    if (!v) return;
@@ -267,9 +270,6 @@ var ConkerC = function(opts) {
 		    }
 		}
 	    } else {
-		jQuery("a." + css.selected).removeClass(css.selected);
-		if (link.hasClass(css.selected))
-		    return;
 		link.addClass(css.selected);
 	    }
 	},
