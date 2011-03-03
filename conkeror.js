@@ -44,7 +44,6 @@ var hotkeys = function() {
 	    current = combo;
 	    matched = true;
 	} else if (fullKeyMap[combo]) {
-	    console.log("Pressed " + combo);
 	    matched = true;
 	    current = "";
 	    fullKeyMap[combo]();
@@ -54,7 +53,6 @@ var hotkeys = function() {
     var keyFn = function(kk){
 	return function() {
 	    combo = current + kk;
-	    console.log(combo);
 	    keyPress();
 	}
     };
@@ -99,7 +97,7 @@ var hotkeys = function() {
     }
 }();
 
-hotkeys.setUnrecognized(function(){ console.log("What??"); });
+hotkeys.setUnrecognized(function(){});
 
 // HTML Selectors for ConkerChrome elements
 var selectors = {
@@ -116,13 +114,13 @@ var css = {
     "id": {}
 }
 
-var nullCommand = {
-    "activate": function(){},
-    "cancel": function(){}
+var baseMode = {
+    "enter": function(){},
+    "leave": function(){}
 }
 
 // Current command
-var currentCommand  = nullCommand;
+var currentMode  = baseMode;
 
 // Create conkerbar
 var conkerChrome = function(){
@@ -155,8 +153,8 @@ hotkeys.add("esc", function(){
 // Cancel current command
 hotkeys.add(ctrl('g'), function(){ 
     conkerChrome.hide();
-    currentCommand.cancel();
-    currentCommand = nullCommand;
+    currentMode.leave();
+    currentMode = baseMode;
 });
 
 // Move back one page in the history
@@ -234,20 +232,21 @@ hotkeys.add('ctrl+x ctrl+f', function() {
 });
 
 hotkeys.add('f', function (evt){ 
-    highlightLinks.activate();
+    followMode.enter();
+    currentMode = followMode;
 });
 
 // Follow a link on the page
 // TODO: Make this work
-var highlightLinks = {
-    "activate": function(){
+var followMode = {
+    "enter": function(){
 	conkerChrome.show();
 	jQuery("a").each(function(i, elem){
 	    jQuery(this).append(jQuery("<div/>", {"class": css.klass.number, "text": i}))
 		.addClass(css.klass.highlight);
 	});
     },
-    "cancel": function(){
+    "leave": function(){
 	jQuery("a").removeClass(css.klass.highlight);
 	jQuery(selectors.number).remove();
     }
