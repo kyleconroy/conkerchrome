@@ -3,14 +3,19 @@
   "version": "1.0",
   "description": "Conkeror Emulation in Chrome",
   "browser_action": {
-    "default_icon": "icon.png"
+    "default_icon": "images/logo.png"
+  },
+  "icons": { 
+     "16": "images/logo.png",
+     "48": "images/logo.png",
+     "128": "images/logo.png"
   },
   "background_page": "background.html",
   "content_scripts": [
       {
 	  "matches": ["<all_urls>"],
-	  "css": ["style.css"],
-	  "js": ["jquery.js","jquery.hotkeys.js","conkeror.js"]
+	  "css": ["css/style.css"],
+	  "js": ["js/jquery.js","js/jquery.hotkeys.js","conkeror.js"]
       }
   ],
   "permissions": [
