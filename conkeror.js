@@ -142,7 +142,8 @@ var ConkerC = function(opts) {
 	    hide: hideBar,
 	    show: function(mode){
 		currentMode = mode
-		title.text(mode.title);
+		title.text(mode.title());
+		input.val(mode.placeholder());
 		bar.show();
 		input.css({"left": title.width() + 10}).focus();
 		mode.enter();
@@ -240,9 +241,14 @@ var ConkerC = function(opts) {
 	conkerBar.show(followMode);
     });
 
+    hotkeys.add('ctrl+x ctrl+w', function (evt){
+	conkerBar.show(editUrlMode);
+    });
+
     // Follow a link on the page
     var followMode = {
-	title: "Enter Link ID",
+	title: function(){ return "Enter Link ID" },
+	placeholder: function() { return "" },
 	enter: function(){
 	    jQuery("a").each(function(i, elem){
 		jQuery(this).append(jQuery("<div/>", {
@@ -279,6 +285,24 @@ var ConkerC = function(opts) {
 	    jQuery("a").removeClass(css.highlight)
 		.removeClass(css.selected);
 	    jQuery(selectors.number).remove();
+	}
+    }
+
+    // Edit Url
+    var editUrlMode = {
+	title: function(){ return "Edit Url"; },
+	placeholder: function() { return document.URL; },
+	enter: function(){
+	},
+	update: function(e, bar) {
+	    v = bar.val();
+	    if (!v) return;
+	    // If the return was pressed,
+	    if (e.keyCode == 13) {
+		window.location.href = v;
+	    }
+	},
+	leave: function(){
 	}
     }
 }({}); //This object will later be a user stored settings file
