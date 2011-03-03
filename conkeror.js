@@ -2,6 +2,23 @@
 var LINE = 40;
 var COLUMN = 20;
 var BIG = 10000000000;
+var META = "meta";
+var CTRL = "ctrl";
+var ALT = "alt";
+var SHIFT = "shift";
+
+var ctrl = function(a) {
+    return CTRL + "+" + a; 
+}
+
+var meta = function(a) {
+    return META + "+" + a; 
+}
+
+var shift = function(a) {
+    return SHIFT + "+" + a; 
+}
+
 
 var hotkeys = function() {
     var matched = false;
@@ -125,24 +142,24 @@ hotkeys.add("esc", function(){
 });
 
 /** Cancel **/
-hotkeys.add("ctrl+g", function(){ 
+hotkeys.add(ctrl('g'), function(){ 
     conkerChrome.hide();
     currentCommand.cancel();
     currentCommand = nullCommand;
 });
 
 /** Back **/
-hotkeys.add('shift+b', function() { 
+hotkeys.add(shift('b'), function() { 
     window.history.back();
 });
 
 /** Back **/
-hotkeys.add('shift+f', function() { 
+hotkeys.add(shift('f'), function() { 
     window.history.forward();
 });
 
 /** Reload **/
-hotkeys.add('r', function() { 
+hotkeys.add(ctrl('r'), function() { 
     window.location.reload(true);
 });
 
@@ -152,67 +169,59 @@ hotkeys.add('g', function(){});
 /* Movement */
 
 /** Beginning of line **/
-hotkeys.add('ctrl+a', function(){
+hotkeys.add(ctrl('a'), function(){
     window.scrollBy(-BIG, 0);
 });
 
 /** End of a line **/
-hotkeys.add('ctrl+e', function(){
+hotkeys.add(ctrl('e'), function(){
     window.scrollBy(BIG, 0);
 });
 
 /** Forward a column **/
-hotkeys.add('ctrl+f', function(){
+hotkeys.add(ctrl('f'), function(){
     window.scrollBy(COLUMN, 0);
 });
 
 /** Back a column **/
-hotkeys.add('ctrl+b', function(){
+hotkeys.add(ctrl('b'), function(){
     window.scrollBy(-COLUMN, 0);
 });
 
 /** Forward a line **/
-hotkeys.add('ctrl+n', function(){
+hotkeys.add(ctrl('n'), function(){
     window.scrollBy(0, LINE);
 });
 
 /** Back a line **/
-hotkeys.add('ctrl+p', function(){
+hotkeys.add(ctrl('p'), function(){
     window.scrollBy(0, -LINE);
 });
 
 /** Page Down **/
-hotkeys.add('ctrl+v', function(){
+hotkeys.add(ctrl('v'), function(){
     window.scrollBy(0, window.innerHeight - LINE);
 });
 
 /** Page Up **/
-hotkeys.add('alt+v', function(){
+hotkeys.add(meta('v'), function(){
     window.scrollBy(0, -(window.innerHeight - LINE));
 });
 
 
 /** End of Document **/
-hotkeys.add('alt+shift+.', function(){
+hotkeys.add(meta(shift('.')), function(){
     window.scrollBy(0, BIG);
 });
 
 /** Top of document **/
-hotkeys.add('alt+shift+,', function(){
+hotkeys.add(meta(shift(',')), function(){
     window.scrollBy(0, -BIG);
 });
 
 /* Buffers */
 /** Next buffer **/
-hotkeys.add('alt+n', function(){
-    chrome.extension.sendRequest({action: "next-tab"}, function(r){});
-});
-
-/** Previos buffer **/
-hotkeys.add('alt+p', function(){
-    chrome.extension.sendRequest({action: "previous-tab"}, function(r){});
-});
-
+/* Chrome Default */
 
 /** Open a URL **/
 hotkeys.add('ctrl+x ctrl+f', function() { 

@@ -47,6 +47,8 @@
 			keys = handleObj.data.toLowerCase().split(" ");
 	
 		handleObj.handler = function( event ) {
+
+
 			// Keypress represents characters, not special keys
 			var special = event.type !== "keypress" && jQuery.hotkeys.specialKeys[ event.which ],
 				character = String.fromCharCode( event.which ).toLowerCase(),
@@ -85,19 +87,21 @@
 
 			} else {
 				possible[ modif + character ] = true;
-				possible[ modif + jQuery.hotkeys.shiftNums[ character ] ] = true;
 
 				// "$" can be triggered as "Shift+4" or "Shift+$" or just "$"
-				if ( modif === "shift+" ) {
-					possible[ jQuery.hotkeys.shiftNums[ character ] ] = true;
+				if ( modif === "shift+" && jQuery.hotkeys.shiftNums[ character ]) {
+				    possible[ modif + jQuery.hotkeys.shiftNums[ character ] ] = true;
+				    possible[ jQuery.hotkeys.shiftNums[ character ] ] = true;
+				}
+			}
+		    
+			for ( var i = 0, l = keys.length; i < l; i++ ) {
+				if ( possible[ keys[i] ] ) {
+				    event.preventDefault();
+				    return origHandler.apply( this, arguments );
 				}
 			}
 
-			for ( var i = 0, l = keys.length; i < l; i++ ) {
-				if ( possible[ keys[i] ] ) {
-					return origHandler.apply( this, arguments );
-				}
-			}
 		};
 	}
 
