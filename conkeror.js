@@ -12,7 +12,7 @@ var ConkerC = function(opts) {
 
     // Load the user provided options
     var options = jQuery.extend({}, defaults, opts);
-    
+
     // Lots of pixels jump to the top or bottom of a page
     // The user shouldn't be able to set this
     var BIG = 10000000000;
@@ -130,7 +130,7 @@ var ConkerC = function(opts) {
 
 	return {
 	    hide: function(){ bar.hide(); input.val("").blur();},
-	    show: function(text){ 
+	    show: function(text){
 		title.text(text);
 		bar.show();
 		input.css({"left": title.width() + 10}).focus();
@@ -139,14 +139,14 @@ var ConkerC = function(opts) {
     }();
 
     // Exit out of the current mode
-    var cancel = function(){ 
+    var cancel = function(){
 	conkerBar.hide();
 	currentMode.leave();
 	currentMode = baseMode;
     };
 
     // Unfocus selected area (such as a textbox)
-    hotkeys.add("esc", function(){ 
+    hotkeys.add("esc", function(){
 	$(":focus").blur();
     });
 
@@ -154,17 +154,17 @@ var ConkerC = function(opts) {
     hotkeys.add("ctrl+g", cancel);
 
     // Move back one page in the history
-    hotkeys.add("shift+b", function() { 
+    hotkeys.add("shift+b", function() {
 	window.history.back();
     });
 
     // Move forward one page in the history
-    hotkeys.add("shift+f", function() { 
+    hotkeys.add("shift+f", function() {
 	window.history.forward();
     });
 
     // Reload the current page
-    hotkeys.add("ctrl+r", function() { 
+    hotkeys.add("ctrl+r", function() {
 	window.location.reload(true);
     });
 
@@ -222,7 +222,7 @@ var ConkerC = function(opts) {
 
     // Open a url
     // TODO: Make this work
-    hotkeys.add('ctrl+x ctrl+f', function() { 
+    hotkeys.add('ctrl+x ctrl+f', function() {
 	conkerBar.show();
     });
 
@@ -231,7 +231,7 @@ var ConkerC = function(opts) {
 	chrome.extension.sendRequest({action: "close-tab"});
     });
 
-    hotkeys.add('f', function (evt){ 
+    hotkeys.add('f', function (evt){
 	followMode.enter();
 	currentMode = followMode;
     });
@@ -240,7 +240,8 @@ var ConkerC = function(opts) {
     var followMode = {
 	enter: function(){
 	    jQuery("a").each(function(i, elem){
-		jQuery(this).append(jQuery("<div/>", {"class": css.number, "text": i}))
+		jQuery(this).append(jQuery("<div/>", {
+		    "class": css.number, "text": i}))
 		    .addClass(css.highlight);
 	    });
 	    conkerBar.show("Enter Link ID");
@@ -259,7 +260,7 @@ var ConkerC = function(opts) {
 			    action: "new-tab",
 			    url: link.attr("href")
 			});
-	    	    } else {
+		    } else {
 			window.location.href = link.attr("href");
 		    }
 		}
