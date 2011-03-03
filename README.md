@@ -5,9 +5,9 @@ Turn Chrome into [Conkeror](conkeror.org). Alpha status! Things aren't really wo
 C = ctrl
 M = alt
 
-# Overview of the Keys
+## Overview of the Keys
 
-## Browsing
+### Browsing
 
 <table>
   <thead>
@@ -46,7 +46,7 @@ M = alt
   </tbody>
 </table>
 
-## Browsing
+### Browsing
 
 <table>
   <tbody>
@@ -93,20 +93,24 @@ M = alt
   </tbody>
 </table>
 
-## "Buffer" Management
+### "Buffer" Management
 
 <table>
   <tbody>
     <tr>
-      <td>M-n</td>
+      <td>M-S-]</td>
       <td>Next buffer</td>
     </tr>
     <tr>
-      <td>M-p</td>
+      <td>M-S-[</td>
       <td>Previous buffer</td>
     </tr>
   </tbody>
 </table>
+
+## Limitations
+
+ConkerChrome currently doesn't work on any internal Chrome page.
 
 
 
