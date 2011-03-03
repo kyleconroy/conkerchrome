@@ -124,20 +124,22 @@ var ConkerC = function(opts) {
 	    currentMode = mode;
 	}
 
+	var hideBar = function(){ 
+	    bar.hide(); 
+	    input.val("").blur();
+	    currentMode.leave();
+	    currentMode = baseMode;
+	}
+
 	input.keyup(function(e) {
 	    if(e.keyCode == 71 && e.ctrlKey){
-		hide();
+		hideBar();
 	    }
 	    currentMode.update(e, input);
 	});
 
 	return {
-	    hide: function(){ 
-		bar.hide(); 
-		input.val("").blur();
-		currentMode.leave();
-		currentMode = baseMode;
-	    },
+	    hide: hideBar,
 	    show: function(mode){
 		currentMode = mode
 		title.text(mode.title);
