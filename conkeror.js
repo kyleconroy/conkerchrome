@@ -110,40 +110,43 @@ var ConkerC = function(opts) {
     // Call this function when an unknown command is entered
     hotkeys.setUnrecognized(function(){});
 
-    // Current mode
-    var currentMode  = baseMode;
-
     // Create conkerbar
     var conkerBar = function(){
+
+	var currentMode  = baseMode;
 
 	jQuery(document.body).append("<div id=\"conkerchrome\"><div id=\"commandbar\"></div><input type=\"text\"></div>");
 	var bar = jQuery(selectors.conker);
 	var title = jQuery(selectors.commandbar);
 	var input = jQuery(selectors.commandinput);
 
+	var change = function(mode) {
+	    currentMode = mode;
+	}
+
 	input.keyup(function(e) {
 	    if(e.keyCode == 71 && e.ctrlKey){
-		cancel();
+		hide();
 	    }
-	    currentMode.update(e, bar);
+	    currentMode.update(e, input);
 	});
 
 	return {
-	    hide: function(){ bar.hide(); input.val("").blur();},
-	    show: function(text){
-		title.text(text);
+	    hide: function(){ 
+		bar.hide(); 
+		input.val("").blur();
+		currentMode.leave();
+		currentMode = baseMode;
+	    },
+	    show: function(mode){
+		currentMode = mode
+		title.text(mode.title);
 		bar.show();
 		input.css({"left": title.width() + 10}).focus();
+		mode.enter();
 	    }
 	};
     }();
-
-    // Exit out of the current mode
-    var cancel = function(){
-	conkerBar.hide();
-	currentMode.leave();
-	currentMode = baseMode;
-    };
 
     // Unfocus selected area (such as a textbox)
     hotkeys.add("esc", function(){
@@ -151,7 +154,7 @@ var ConkerC = function(opts) {
     });
 
     // Cancel current command
-    hotkeys.add("ctrl+g", cancel);
+    hotkeys.add("ctrl+g", conkerBar.hide);
 
     // Move back one page in the history
     hotkeys.add("shift+b", function() {
@@ -232,19 +235,18 @@ var ConkerC = function(opts) {
     });
 
     hotkeys.add('f', function (evt){
-	followMode.enter();
-	currentMode = followMode;
+	conkerBar.show(followMode);
     });
 
     // Follow a link on the page
     var followMode = {
+	title: "Enter Link ID",
 	enter: function(){
 	    jQuery("a").each(function(i, elem){
 		jQuery(this).append(jQuery("<div/>", {
 		    "class": css.number, "text": i}))
 		    .addClass(css.highlight);
 	    });
-	    conkerBar.show("Enter Link ID");
 	},
 	update: function(e, bar) {
 	    // Get the selected link or return
