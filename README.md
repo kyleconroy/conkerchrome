@@ -1,6 +1,6 @@
-# Conker Chrome
+# ConkerChrome BETA
 
-Turn Chrome into [Conkeror](conkeror.org). BETA
+A port of [Conkeror](conkeror.org) to Chrome. Add Emacs-like bindings to your web browser, meaning you never have to use the mouse.
 
 ## Overview of the Keys
 
