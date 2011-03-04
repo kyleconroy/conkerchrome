@@ -227,12 +227,6 @@ var ConkerC = function(opts) {
 	window.scrollBy(0, -BIG);
     });
 
-    // Open a url
-    // TODO: Make this work
-    hotkeys.add('ctrl+x ctrl+f', function() {
-	conkerBar.show(newTabMode);
-    });
-
     // Close the current tab
     hotkeys.add('ctrl+x k', function() {
 	chrome.extension.sendRequest({action: "close-tab"});
@@ -240,10 +234,6 @@ var ConkerC = function(opts) {
 
     hotkeys.add('f', function (evt){
 	conkerBar.show(followMode);
-    });
-
-    hotkeys.add('ctrl+x ctrl+w', function (evt){
-	conkerBar.show(editUrlMode);
     });
 
     // Follow a link on the page
