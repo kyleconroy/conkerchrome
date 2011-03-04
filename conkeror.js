@@ -291,6 +291,7 @@ var ConkerC = function(opts) {
 				    url: link.attr("href")
 				});
 			    } else {
+				link.click();
 				window.location.href = link.attr("href");
 			    }
 			}
