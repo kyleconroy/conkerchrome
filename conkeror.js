@@ -292,6 +292,7 @@ var ConkerC = function(opts) {
 		}
 	    },
 	    leave: function(){
+		current = 0;
 		links.removeClass(css.highlight)
 		    .removeClass(css.selected);
 		jQuery(selectors.number).remove();
