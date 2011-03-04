@@ -23,7 +23,7 @@ var ConkerC = function(opts) {
 	commandbar: "#commandbar",
 	commandinput: "#conkerchrome input",
 	number: ".conkerchrome_number",
-	links: "a:in-view"
+	links: "a:in-view, button:in-view"
     }
 
     // CSS Selectors for ConkerChrome elements
