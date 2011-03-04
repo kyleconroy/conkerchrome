@@ -227,6 +227,14 @@ var ConkerC = function(opts) {
 	window.scrollBy(0, -BIG);
     });
 
+    // Open new tab
+    hotkeys.add("ctrl+x ctrl+f", function(){
+	chrome.extension.sendRequest({
+	    action: "new-tab",
+	    selected: true
+	});
+    });
+
     // Close the current tab
     hotkeys.add('ctrl+x k', function() {
 	chrome.extension.sendRequest({action: "close-tab"});
@@ -318,25 +326,4 @@ var ConkerC = function(opts) {
 	}
     }
 
-    // Open a new tab mode
-    var newTabMode = {
-	title: function(){ return "Enter Url"; },
-	placeholder: function() { return ""; },
-	enter: function(){
-	},
-	update: function(e, bar) {
-	    v = bar.val();
-	    if (!v) return;
-	    // If the return was pressed,
-	    if (e.keyCode == 13) {
-		chrome.extension.sendRequest({
-		    action: "new-tab",
-		    url: v,
-		    selected: true
-		});
-	    }
-	},
-	leave: function(){
-	}
-    }
 }({}); //This object will later be a user stored settings file
