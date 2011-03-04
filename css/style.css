@@ -22,11 +22,11 @@
     margin: 3px !important;
 }
 .conkerchrome_highlight {
-  background: yellow !important;
+  background: #ffff00 !important;
   position: relative !important;
 }
 .conkerchrome_selected {
-  background: green !important;
+  background: #88ff00 !important; 
 }
 .conkerchrome_number {
   background: red !important;

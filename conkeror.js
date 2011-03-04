@@ -22,7 +22,8 @@ var ConkerC = function(opts) {
 	conker: "#conkerchrome",
 	commandbar: "#commandbar",
 	commandinput: "#conkerchrome input",
-	number: ".conkerchrome_number"
+	number: ".conkerchrome_number",
+	links: "a:in-view"
     }
 
     // CSS Selectors for ConkerChrome elements
@@ -246,47 +247,53 @@ var ConkerC = function(opts) {
     });
 
     // Follow a link on the page
-    var followMode = {
-	title: function(){ return "Enter Link ID" },
-	placeholder: function() { return "" },
-	enter: function(){
-	    jQuery("a").each(function(i, elem){
-		jQuery(this).append(jQuery("<div/>", {
-		    "class": css.number, "text": i}))
-		    .addClass(css.highlight);
-	    });
-	},
-	update: function(e, bar) {
-	    // Remove the current selection
-	    jQuery("a." + css.selected).removeClass(css.selected);
+    var followMode = function() {
 
-	    // Get the selected link or return
-	    var v = bar.val();
-	    if (!v) return;
-	    link = jQuery("a:eq(" + v + ")");
-	    // If the return was pressed,
-	    if (e.keyCode == 13) {
-		if (link && link.attr("href")) {
-		    // If shift+return, open new tab
-		    if (e.shiftKey) {
-			chrome.extension.sendRequest({
-			    action: "new-tab",
-			    url: link.attr("href")
-			});
-		    } else {
-			window.location.href = link.attr("href");
+	var links;
+
+	return {
+	    title: function(){ return "Enter Link ID" },
+	    placeholder: function() { return "" },
+	    enter: function(){
+		links = jQuery(selectors.links);
+		links.each(function(i, elem){
+		    jQuery(this).append(jQuery("<div/>", {
+			"class": css.number, "text": i}))
+			.addClass(css.highlight);
+		});
+	    },
+	    update: function(e, bar) {
+		// Remove the current selection
+		jQuery("a." + css.selected).removeClass(css.selected);
+
+		// Get the selected link or return
+		var v = bar.val();
+		if (!v) return;
+		link = jQuery(links.get(v));
+		// If the return was pressed,
+		if (e.keyCode == 13) {
+		    if (link && link.attr("href")) {
+			// If shift+return, open new tab
+			if (e.shiftKey) {
+			    chrome.extension.sendRequest({
+				action: "new-tab",
+				url: link.attr("href")
+			    });
+			} else {
+			    window.location.href = link.attr("href");
+			}
 		    }
+		} else {
+		    link.addClass(css.selected);
 		}
-	    } else {
-		link.addClass(css.selected);
+	    },
+	    leave: function(){
+		links.removeClass(css.highlight)
+		    .removeClass(css.selected);
+		jQuery(selectors.number).remove();
 	    }
-	},
-	leave: function(){
-	    jQuery("a").removeClass(css.highlight)
-		.removeClass(css.selected);
-	    jQuery(selectors.number).remove();
 	}
-    }
+    }();
 
     // Edit Url
     var editUrlMode = {
