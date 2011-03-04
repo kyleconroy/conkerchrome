@@ -240,6 +240,7 @@ var ConkerC = function(opts) {
     var followMode = function() {
 
 	var links;
+	var current = 0;
 
 	return {
 	    title: function(){ return "Enter Link ID" },
@@ -254,29 +255,40 @@ var ConkerC = function(opts) {
 		links.first().addClass(css.selected);
 	    },
 	    update: function(e, bar) {
-		// Remove the current selection
-		jQuery("a." + css.selected).removeClass(css.selected);
-
-		// Get the selected link or return
-		var v = bar.val();
-		if (!v) return;
-		link = jQuery(links.get(v));
-
-		// If the return was pressed,
-		if (e.keyCode == 13) {
-		    if (link && link.attr("href")) {
-			// If shift+return, open new tab
-			if (e.shiftKey) {
-			    chrome.extension.sendRequest({
-				action: "new-tab",
-				url: link.attr("href")
-			    });
-			} else {
-			    window.location.href = link.attr("href");
-			}
-		    }
+		// If ctrl+n, move to next link
+		if(e.keyCode == 78 && e.ctrlKey){
+		    jQuery("a." + css.selected).removeClass(css.selected);
+		    current = (current + 1) % links.length;
+		    jQuery(links.get(current)).addClass(css.selected);
+		    bar.val(current);
+		} // If ctrl+p, move back a link
+		else if(e.keyCode == 80 && e.ctrlKey){
+		    jQuery("a." + css.selected).removeClass(css.selected);
+		    current = (current - 1) % links.length;
+		    jQuery(links.get(current)).addClass(css.selected);
+		    bar.val(current);
 		} else {
-		    link.addClass(css.selected);
+		    jQuery("a." + css.selected).removeClass(css.selected);
+
+		    current = bar.val() || current;
+		    link = jQuery(links.get(current));
+
+		    // If the return was pressed,
+		    if (e.keyCode == 13) {
+			if (link && link.attr("href")) {
+			    // If shift+return, open new tab
+			    if (e.shiftKey) {
+				chrome.extension.sendRequest({
+				    action: "new-tab",
+				    url: link.attr("href")
+				});
+			    } else {
+				window.location.href = link.attr("href");
+			    }
+			}
+		    } else {
+			link.addClass(css.selected);
+		    }
 		}
 	    },
 	    leave: function(){
