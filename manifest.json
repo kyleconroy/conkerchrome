@@ -15,7 +15,7 @@
       {
 	  "matches": ["<all_urls>"],
 	  "css": ["css/style.css"],
-	  "js": ["js/jquery.js","js/jquery.hotkeys.js","conkeror.js"]
+	  "js": ["js/jquery.js","js/jquery.hotkeys.js","js/jquery.visible.js","conkeror.js"]
       }
   ],
   "permissions": [

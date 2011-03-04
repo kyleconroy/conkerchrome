@@ -6,6 +6,7 @@
   right: 0px !important;
   left: 0px !important;
   background: grey !important;
+  z-index: 999999999999999 !important;
 }
 
 #conkerchrome div {
@@ -29,6 +30,8 @@
   background: #88ff00 !important; 
 }
 .conkerchrome_number {
+  z-index: 999999999999999 !important;
+  text-indent: 0px !important;
   background: red !important;
   color: white !important;
   position: absolute !important;

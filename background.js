@@ -17,7 +17,7 @@ chrome.extension.onRequest.addListener(
 	    chrome.tabs.getSelected(null, function(tab){
 		chrome.tabs.create({
 		    "url": request.url,
-		    "selected": false,
+		    "selected": request.selected || false,
 		    "index": tab.index + 1
 		});
 	    });

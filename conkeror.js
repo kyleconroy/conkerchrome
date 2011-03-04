@@ -230,7 +230,7 @@ var ConkerC = function(opts) {
     // Open a url
     // TODO: Make this work
     hotkeys.add('ctrl+x ctrl+f', function() {
-	conkerBar.show();
+	conkerBar.show(newTabMode);
     });
 
     // Close the current tab
@@ -256,11 +256,12 @@ var ConkerC = function(opts) {
 	    placeholder: function() { return "" },
 	    enter: function(){
 		links = jQuery(selectors.links);
-		links.each(function(i, elem){
+		links.each(function(i, elem) {
 		    jQuery(this).append(jQuery("<div/>", {
 			"class": css.number, "text": i}))
 			.addClass(css.highlight);
 		});
+		links.first().addClass(css.selected);
 	    },
 	    update: function(e, bar) {
 		// Remove the current selection
@@ -270,6 +271,7 @@ var ConkerC = function(opts) {
 		var v = bar.val();
 		if (!v) return;
 		link = jQuery(links.get(v));
+
 		// If the return was pressed,
 		if (e.keyCode == 13) {
 		    if (link && link.attr("href")) {
@@ -307,6 +309,28 @@ var ConkerC = function(opts) {
 	    // If the return was pressed,
 	    if (e.keyCode == 13) {
 		window.location.href = v;
+	    }
+	},
+	leave: function(){
+	}
+    }
+
+    // Open a new tab mode
+    var newTabMode = {
+	title: function(){ return "Enter Url"; },
+	placeholder: function() { return ""; },
+	enter: function(){
+	},
+	update: function(e, bar) {
+	    v = bar.val();
+	    if (!v) return;
+	    // If the return was pressed,
+	    if (e.keyCode == 13) {
+		chrome.extension.sendRequest({
+		    action: "new-tab",
+		    url: v,
+		    selected: true
+		});
 	    }
 	},
 	leave: function(){
